@@ -26,5 +26,6 @@ namespace connect4
 		bool m_IsRunning = true;
 		bool m_RestartGame = false;
 		std::string m_WindowCaption = "Connect 4";
+		GameMode::Modes m_ActiveGamemode;
 	};
 }

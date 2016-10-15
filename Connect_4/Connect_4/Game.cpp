@@ -2,7 +2,7 @@
 
 using namespace connect4;
 
-Game::Game() : m_WinnerColor(sf::Color::White), m_IsRunning(true), m_RestartGame(false)
+Game::Game() : m_WinnerColor(sf::Color::White), m_IsRunning(true), m_RestartGame(false), m_ActiveGamemode(GameMode::Modes::PlayerVsPlayer)
 {
 }
 
@@ -75,9 +75,10 @@ void Game::selectGameMode()
 	drawables.push_back(&aiVsAi);
 
 	Board& board = m_Board;
+	GameMode::Modes& mode = m_ActiveGamemode;
 
 	std::function<void(sf::RenderWindow&, sf::Event&)> func =
-		[&board](sf::RenderWindow& window, sf::Event& event)
+		[&board, &mode](sf::RenderWindow& window, sf::Event& event)
 	{
 		if (event.type == sf::Event::KeyPressed && event.key.code >= sf::Keyboard::Num1 && event.key.code <= sf::Keyboard::Num3)
 		{
@@ -86,16 +87,17 @@ void Game::selectGameMode()
 			switch (target)
 			{
 			case 0:
-				board.SetGameMode(GameMode::Modes::PlayerVsPlayer); break;
+				mode = GameMode::Modes::PlayerVsPlayer; break;
 			case 1:
-				board.SetGameMode(GameMode::Modes::PlayerVsAi); break;
+				mode = GameMode::Modes::PlayerVsAi; break;
 			case 2:
-				board.SetGameMode(GameMode::Modes::AiVsAi); break;
+				mode = GameMode::Modes::AiVsAi; break;
 			}
 			window.close();
 		}
 	};
 	renderLoop(sf::VideoMode(750, 250), drawables, func);
+	board.SetGameMode(m_ActiveGamemode);
 }
 
 void Game::startGameMode()
@@ -112,9 +114,12 @@ void Game::startGameMode()
 				window.close();
 				m_IsRunning = false;
 			}
-			else
+			else if(m_ActiveGamemode == GameMode::Modes::PlayerVsPlayer || m_ActiveGamemode == GameMode::Modes::PlayerVsAi)
 				m_Board.ProcessEvent(event);
 		}
+		//if ai vs ai - process without waiting for an event
+		if (m_ActiveGamemode == GameMode::Modes::AiVsAi)
+			m_Board.ProcessEvent(event);
 
 		window.clear(sf::Color::Blue);
 		m_Board.Draw(window);
