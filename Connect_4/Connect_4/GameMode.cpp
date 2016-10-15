@@ -18,9 +18,9 @@ bool GameMode::HasSomebodyWon(sf::Color& outWinColor) const
 	return m_HasSomebodyWon;
 }
 
-void GameMode::chipInput(int column, ChipHoles& chipHoles)
+bool GameMode::chipInput(int column, ChipHoles& chipHoles)
 {
-	if (m_HasSomebodyWon) return;
+	if (m_HasSomebodyWon) return false;
 	int row;
 	if(chipHoles.PutChipInColumn(column, m_PlayerColors[m_ActivePlayer], row))
 	{
@@ -29,7 +29,10 @@ void GameMode::chipInput(int column, ChipHoles& chipHoles)
 			setActivePlayerToWinner();
 		else
 			m_ActivePlayer = (m_ActivePlayer + 1) % 2;
+		
+		return true;
 	}
+	return false;
 }
 
 bool GameMode::checkForWin(int row, int column)

@@ -21,9 +21,11 @@ namespace connect4
 	protected:
 		GameMode();
 
-		void chipInput(int column, ChipHoles& board);
+		bool chipInput(int column, ChipHoles& board);
 		void initPlayerChips();
 
+		int m_ActivePlayer = 0;
+		bool m_HasSomebodyWon = false;
 	private:
 		void saveChipInputForPlayer(int row, int column);
 		bool checkForWin(int row, int column);
@@ -37,8 +39,6 @@ namespace connect4
 		bool winCheckHelperForDiagonal(int row, int column, std::function<void(int&, int&)> funcForRowAndColumnPerIteration);
 
 		sf::Color m_PlayerColors[2];
-		int m_ActivePlayer = 0;
-		bool m_HasSomebodyWon = false;
 		sf::Color m_WinColor = sf::Color::White;
 
 		std::vector<std::vector<bool>> m_PlayerChips[2];

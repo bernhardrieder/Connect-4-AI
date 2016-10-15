@@ -71,5 +71,8 @@
     <Filter Include="Headerdateien">
       <UniqueIdentifier>{e632a138-16c2-4937-8945-d1e505a02783}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\AI">
+      <UniqueIdentifier>{b68f6448-f761-490b-b3d1-ac7bd10682d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
