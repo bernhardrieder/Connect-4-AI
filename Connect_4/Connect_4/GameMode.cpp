@@ -105,10 +105,14 @@ bool GameMode::winCheckHelperForHorizontalAndVertical(int clampValue, int clampM
 
 	for (; min <= max; ++min)
 	{
-		if (func(min)) 
+		if (func(min))
+		{
 			++count;
-		if (count == winAmount)
-			return true;
+			if (count == winAmount)
+				return true;
+		}
+		else
+			count = 0;
 	}
 	return false;
 }
@@ -141,9 +145,13 @@ bool GameMode::winCheckHelperForDiagonal(int row, int column, std::function<void
 		if (row < 0 || column < 0 || row >= rowCount || column >= columnCount)
 			continue;
 		if (playerChips[row][column])
+		{
 			++count;
-		if (count == winAmount)
-			return true;
+			if (count == winAmount)
+				return true;
+		}
+		else
+			count = 0;
 	}
 	return false;
 }
