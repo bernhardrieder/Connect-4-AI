@@ -12,7 +12,7 @@ namespace connect4
 		void Draw(sf::RenderWindow& window);
 		void CreateHoles(sf::Vector2f borderOffset, sf::Vector2f elementOffset);
 		bool PutChipInColumn(int column, sf::Color chipColor, int& outRow);
-
+		bool AreAllHolesFilled();
 		float GetChipRadius() const;
 		std::vector<sf::Vector2f> GetBottomHolesPositions() const;
 		void Reset();

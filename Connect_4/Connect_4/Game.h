@@ -16,7 +16,7 @@ namespace connect4
 		void selectGameMode();
 		void startGameMode();
 		void startGame();
-		void showWinner();
+		void showWinnerOrDraw();
 
 		void renderLoop(const sf::VideoMode videoMode, const std::vector<sf::Drawable*>& drawable, std::function<void(sf::RenderWindow&, sf::Event&)> funcEvents);
 
@@ -25,6 +25,7 @@ namespace connect4
 		sf::Color m_WinnerColor;
 		bool m_IsRunning = true;
 		bool m_RestartGame = false;
+		bool m_IsDraw = false;
 		std::string m_WindowCaption = "Connect 4";
 		GameMode::Modes m_ActiveGamemode;
 	};

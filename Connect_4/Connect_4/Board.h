@@ -17,6 +17,7 @@ namespace connect4
 		void SetGameMode(GameMode::Modes mode);
 		sf::VideoMode GetVideoMode() const;
 		bool HasSomebodyWon(sf::Color& outWinColor) const;
+		bool AreAllHolesFilledWithChips() const;
 		//GameMode* GetGameMode() const;
 		//ChipHoles* GetChipHoles();
 		void Reset() const;

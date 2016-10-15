@@ -34,6 +34,11 @@ bool Board::HasSomebodyWon(sf::Color& outWinColor) const
 	return m_GameMode->HasSomebodyWon(outWinColor);
 }
 
+bool Board::AreAllHolesFilledWithChips() const
+{
+	return m_ChipHoles->AreAllHolesFilled();
+}
+
 void Board::Reset() const
 {
 	m_ChipHoles->Reset();

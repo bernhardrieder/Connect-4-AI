@@ -2,7 +2,7 @@
 
 using namespace connect4;
 
-Game::Game() : m_WinnerColor(sf::Color::White), m_IsRunning(true), m_RestartGame(false), m_ActiveGamemode(GameMode::Modes::PlayerVsPlayer)
+Game::Game() : m_WinnerColor(sf::Color::White), m_IsRunning(true), m_RestartGame(false), m_IsDraw(false), m_ActiveGamemode(GameMode::Modes::PlayerVsPlayer)
 {
 }
 
@@ -51,6 +51,7 @@ void Game::showUsage(std::string name)
 
 void Game::selectGameMode()
 {
+	if (!m_IsRunning) return;
 	sf::Text startText;
 	startText.setFont(GlobalVariables::GetTextFont());
 	startText.setString("Select a Connect 4 gamemode:");
@@ -102,6 +103,7 @@ void Game::selectGameMode()
 
 void Game::startGameMode()
 {
+	if (!m_IsRunning) return;
 	sf::RenderWindow window(m_Board.GetVideoMode(), m_WindowCaption);
 
 	while (m_IsRunning && window.isOpen())
@@ -127,7 +129,14 @@ void Game::startGameMode()
 
 		if (m_Board.HasSomebodyWon(m_WinnerColor))
 		{
-			showWinner();
+			showWinnerOrDraw();
+			break;
+		}
+		//its possible to win the game with the last chip, so check and set this after has won check!
+		if(m_Board.AreAllHolesFilledWithChips())
+		{
+			m_IsDraw = true;
+			showWinnerOrDraw();
 			break;
 		}
 	}
@@ -137,23 +146,25 @@ void Game::startGameMode()
 
 void Game::startGame()
 {
+	m_IsDraw = false;
 	m_RestartGame = false;
 	m_IsRunning = true;
 	m_Board.Reset();
 	selectGameMode();
 	startGameMode();
-	showWinner();
+	showWinnerOrDraw();
 }
 
-void Game::showWinner()
+void Game::showWinnerOrDraw()
 {
+	if (!m_IsRunning) return;
 	sf::CircleShape circle;
-	circle.setFillColor(m_WinnerColor);
+	circle.setFillColor(m_IsDraw ? sf::Color::White : m_WinnerColor);
 	circle.setRadius(100);
 	circle.setPosition(170, 150);
 	sf::Text winText;
 	winText.setFont(GlobalVariables::GetTextFont());
-	winText.setString("WINNER:");
+	winText.setString(m_IsDraw ? " DRAW!" : "WINNER:");
 	winText.setFillColor(sf::Color::White);
 	winText.setCharacterSize(100);
 	winText.setPosition(50, 10);
@@ -169,9 +180,10 @@ void Game::showWinner()
 
 	bool& restartGame = m_RestartGame;
 	bool& isRunning = m_IsRunning;
+	bool& isDraw = m_IsDraw;
 
 	std::function<void(sf::RenderWindow&, sf::Event&)> func = 
-		[&restartGame, &isRunning](sf::RenderWindow& window, sf::Event& event)
+		[&restartGame, &isRunning, &isDraw](sf::RenderWindow& window, sf::Event& event)
 	{
 		if (event.type == sf::Event::KeyPressed)
 		{
@@ -179,10 +191,12 @@ void Game::showWinner()
 			{
 			case  sf::Keyboard::R:
 				restartGame = true;
+				isDraw = false;
 				window.close();
 				break;
 			case sf::Keyboard::E:
 				isRunning = false;
+				isDraw = false;
 				window.close();
 				break;
 			}
@@ -193,6 +207,7 @@ void Game::showWinner()
 
 void Game::renderLoop(const sf::VideoMode videoMode, const std::vector<sf::Drawable*>& drawable, std::function<void(sf::RenderWindow&, sf::Event&)> funcEvents)
 {
+	if (!m_IsRunning) return;
 	sf::RenderWindow window(videoMode, m_WindowCaption);
 	while (m_IsRunning && window.isOpen())
 	{

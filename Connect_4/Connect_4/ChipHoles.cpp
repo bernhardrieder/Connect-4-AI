@@ -60,6 +60,15 @@ bool ChipHoles::PutChipInColumn(int column, sf::Color chipColor, int& outRow)
 	return false;
 }
 
+bool ChipHoles::AreAllHolesFilled()
+{
+	for(auto i : m_UsedChipHolesRowPerColumn)
+	{
+		if (i != m_RowCount) return false;
+	}
+	return true;
+}
+
 float ChipHoles::GetChipRadius() const
 {
 	return m_ChipRadius;
