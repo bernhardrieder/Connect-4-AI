@@ -35,7 +35,7 @@ void ChipHoles::CreateHoles(sf::Vector2f borderOffset, sf::Vector2f elementOffse
 
 			sf::Vector2f offset;
 			offset.x = borderOffset.x + elementOffset.x*static_cast<float>(column) + m_ChipRadius*static_cast<float>(column) * 2;
-			offset.y = borderOffset.y + elementOffset.y*static_cast<float>(row) + m_ChipRadius*static_cast<float>(row) * 2;
+			offset.y = borderOffset.y + elementOffset.y*static_cast<float>(row) + m_ChipRadius*static_cast<float>(row) * 2 + m_ChipRadius*2;
 
 			shape.setPosition(offset);
 
@@ -84,5 +84,5 @@ void ChipHoles::Reset()
 	for (auto& row : m_UsedChipHolesRowPerColumn)
 		row = 0;
 	for (auto& hole : m_ChipHoles)
-		hole.setFillColor(sf::Color::White);
+		hole.setFillColor(sf::Color::Black);
 }

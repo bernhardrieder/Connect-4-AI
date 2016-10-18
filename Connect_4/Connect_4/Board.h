@@ -20,7 +20,7 @@ namespace connect4
 		bool AreAllHolesFilledWithChips() const;
 		void Reset() const;
 
-		const sf::Vector2f BorderOffset = sf::Vector2f(40, 60);
+		const sf::Vector2f BorderOffset = sf::Vector2f(15, 15);
 		const sf::Vector2f ElementOffset = sf::Vector2f(15, 15);
 
 	private:
@@ -32,7 +32,8 @@ namespace connect4
 		std::unique_ptr<GameMode> m_GameMode = nullptr;
 		std::unique_ptr<ChipHoles> m_ChipHoles = nullptr;
 
-		std::vector<sf::Text> m_Texts;
+		sf::RectangleShape m_BackgroundShape;
+
 	};
 
 

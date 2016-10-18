@@ -12,11 +12,11 @@ Board::~Board()
 {
 	m_ChipHoles.release();
 	m_GameMode.release();
-	m_Texts.clear();
 }
 
 void Board::Draw(sf::RenderWindow& window) const
 {
+	window.draw(m_BackgroundShape);
 	m_ChipHoles->Draw(window);
 	drawActivePlayerChip(window);
 }
@@ -60,6 +60,9 @@ void Board::createBoard()
 	std::vector<sf::Vector2f> holes = m_ChipHoles->GetBottomHolesPositions();
 	m_VideoMode.width = static_cast<int>((holes.end()-1)->x + chipRadius * 2 + BorderOffset.x);
 	m_VideoMode.height = static_cast<int>((holes.end()-1)->y + chipRadius * 2 + BorderOffset.y);
+	m_BackgroundShape.setSize(sf::Vector2f(m_VideoMode.width, m_VideoMode.height));
+	m_BackgroundShape.setPosition(0, chipRadius * 2);
+	m_BackgroundShape.setFillColor(sf::Color::Blue);
 }
 
 void Board::useGameMode(GameMode::Modes mode)
@@ -87,7 +90,7 @@ void Board::drawActivePlayerChip(sf::RenderWindow& window) const
 	sf::CircleShape circle;
 	circle.setRadius(chipRadius);
 	circle.setFillColor(chipColor);
-	circle.setPosition(choosenX, -chipRadius/2);
+	circle.setPosition(choosenX, 0);
 
 	window.draw(circle);
 	

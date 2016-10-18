@@ -123,7 +123,7 @@ void Game::startGameMode()
 		if (m_ActiveGamemode == GameMode::Modes::AiVsAi)
 			m_Board.ProcessEvent(event);
 
-		window.clear(sf::Color::Blue);
+		window.clear(sf::Color::Black);
 		m_Board.Draw(window);
 		window.display();
 
@@ -225,7 +225,7 @@ void Game::renderLoop(const sf::VideoMode videoMode, const std::vector<sf::Drawa
 			}
 		}
 
-		window.clear(sf::Color::Blue);
+		window.clear(sf::Color::Black);
 		for(auto& i : drawable)
 			window.draw(*i);
 
