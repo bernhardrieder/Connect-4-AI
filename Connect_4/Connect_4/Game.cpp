@@ -68,12 +68,17 @@ void Game::selectGameMode()
 	sf::Text aiVsAi = startText;
 	aiVsAi.setString("3 - AI versus AI");
 	aiVsAi.setPosition(70, 165);
+	sf::Text info = startText;
+	info.setString("Use left/ right and down arrow key for input");
+	info.setCharacterSize(30);
+	info.setPosition(70, 265);
 
 	std::vector<sf::Drawable*> drawables;
 	drawables.push_back(&startText);
 	drawables.push_back(&playerVsPlayer);
 	drawables.push_back(&playerVsAi);
 	drawables.push_back(&aiVsAi);
+	drawables.push_back(&info);
 
 	Board& board = m_Board;
 	GameMode::Modes& mode = m_ActiveGamemode;
@@ -97,7 +102,7 @@ void Game::selectGameMode()
 			window.close();
 		}
 	};
-	renderLoop(sf::VideoMode(750, 250), drawables, func);
+	renderLoop(sf::VideoMode(750, 350), drawables, func);
 	board.SetGameMode(m_ActiveGamemode);
 }
 
