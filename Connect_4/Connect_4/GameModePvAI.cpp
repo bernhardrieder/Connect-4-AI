@@ -22,19 +22,7 @@ void GameModePvAI::CheckInputEvent(const sf::Event& event, ChipHoles& chipHoles)
 
 void GameModePvAI::chipInputPlayer(const sf::Event& event, ChipHoles& chipHoles)
 {
-	if (event.type == sf::Event::KeyPressed)
-	{
-		if (event.key.code >= sf::Keyboard::Num1 && event.key.code <= sf::Keyboard::Num7)
-		{
-			int targetColumn = event.key.code - 27;
-			chipInput(targetColumn, chipHoles);
-		}
-	}
-}
-
-int RandomInt(int min, int max)
-{
-	return min + (rand() % static_cast<int>(max - min + 1));
+	GameMode::chipInputPlayer(event, chipHoles);
 }
 
 void GameModePvAI::chipInputAi(ChipHoles& chipHoles)

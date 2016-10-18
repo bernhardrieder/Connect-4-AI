@@ -12,14 +12,12 @@ namespace connect4
 		~Board();
 
 		// draw everything here...
-		void Draw(sf::RenderWindow& window);
+		void Draw(sf::RenderWindow& window) const; //TODO: draw circle above holes to visualize active column to make things easier
 		void ProcessEvent(const sf::Event& event) const;
 		void SetGameMode(GameMode::Modes mode);
 		sf::VideoMode GetVideoMode() const;
 		bool HasSomebodyWon(sf::Color& outWinColor) const;
 		bool AreAllHolesFilledWithChips() const;
-		//GameMode* GetGameMode() const;
-		//ChipHoles* GetChipHoles();
 		void Reset() const;
 
 		const sf::Vector2f BorderOffset = sf::Vector2f(40, 60);
@@ -28,10 +26,11 @@ namespace connect4
 	private:
 		void createBoard();
 		void useGameMode(GameMode::Modes mode);
+		void drawActivePlayerChip(sf::RenderWindow& window) const;
 
 		sf::VideoMode m_VideoMode;
-		GameMode* m_GameMode = nullptr;
-		ChipHoles* m_ChipHoles = nullptr;
+		std::unique_ptr<GameMode> m_GameMode = nullptr;
+		std::unique_ptr<ChipHoles> m_ChipHoles = nullptr;
 
 		std::vector<sf::Text> m_Texts;
 	};

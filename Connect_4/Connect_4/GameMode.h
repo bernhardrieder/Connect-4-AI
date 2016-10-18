@@ -15,6 +15,8 @@ namespace connect4
 		};
 
 		virtual void CheckInputEvent(const sf::Event& event, ChipHoles& chipHoles) = 0;
+		int GetChoosenColumn() const;
+		sf::Color GetActivePlayerColor();
 		bool HasSomebodyWon(sf::Color& outWinColor) const;
 		virtual ~GameMode();
 
@@ -22,10 +24,13 @@ namespace connect4
 		GameMode();
 
 		bool chipInput(int column, ChipHoles& board);
+		virtual void chipInputPlayer(const sf::Event& event, ChipHoles& chipHoles);
+
 		void initPlayerChips();
 
 		int m_ActivePlayer = 0;
 		bool m_HasSomebodyWon = false;
+		int m_ChoosenColumn = 3;
 	private:
 		void saveChipInputForPlayer(int row, int column);
 		bool checkForWin(int row, int column);

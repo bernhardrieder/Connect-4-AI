@@ -27,3 +27,8 @@ inline std::string to_string(sf::Color color)
 	if (color == sf::Color::Transparent)
 		return "Transparent";
 }
+
+inline int RandomInt(int min, int max)
+{
+	return min + (rand() % static_cast<int>(max - min + 1));
+}

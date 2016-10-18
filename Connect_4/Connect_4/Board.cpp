@@ -4,24 +4,21 @@ using namespace connect4;
 
 Board::Board() : m_GameMode(nullptr), m_ChipHoles(nullptr)
 {
-	m_ChipHoles = new ChipHoles(35.f);
+	m_ChipHoles = std::make_unique<ChipHoles>(35.f);
 	createBoard();
 }
 
 Board::~Board()
 {
-	if(m_ChipHoles != nullptr)
-		delete m_ChipHoles;
-	if(m_GameMode != nullptr)
-		delete m_GameMode;
+	m_ChipHoles.release();
+	m_GameMode.release();
 	m_Texts.clear();
 }
 
-void Board::Draw(sf::RenderWindow& window)
+void Board::Draw(sf::RenderWindow& window) const
 {
 	m_ChipHoles->Draw(window);
-	for (auto i : m_Texts)
-		window.draw(i);
+	drawActivePlayerChip(window);
 }
 
 sf::VideoMode Board::GetVideoMode() const
@@ -61,37 +58,37 @@ void Board::createBoard()
 
 	float chipRadius = m_ChipHoles->GetChipRadius();
 	std::vector<sf::Vector2f> holes = m_ChipHoles->GetBottomHolesPositions();
-	int column = 0;
-	for(sf::Vector2f hole : holes)
-	{
-		sf::Text text;
-		text.setFont(GlobalVariables::GetTextFont());
-		text.setString(std::to_string(++column));
-		int characterSizeInPixel = 24;
-		text.setCharacterSize(characterSizeInPixel); // in pixels, not points!
-		text.setFillColor(sf::Color::White);
-		text.setStyle(sf::Text::Bold);
-
-		hole.x += chipRadius / 2 + characterSizeInPixel / 2;
-		hole.y += ElementOffset.y + chipRadius * 2;
-		text.setPosition(hole);
-		m_Texts.push_back(text);
-	}
-
 	m_VideoMode.width = static_cast<int>((holes.end()-1)->x + chipRadius * 2 + BorderOffset.x);
 	m_VideoMode.height = static_cast<int>((holes.end()-1)->y + chipRadius * 2 + BorderOffset.y);
 }
 
 void Board::useGameMode(GameMode::Modes mode)
 {
-	if(m_GameMode != nullptr)
-		delete m_GameMode;
+	if (m_GameMode != nullptr)
+		m_GameMode.release();
 
 	switch (mode)
 	{
-	case GameMode::Modes::PlayerVsPlayer: m_GameMode = new GameModePvP(); break;
-		case GameMode::Modes::PlayerVsAi: m_GameMode = new GameModePvAI(); break;
-		case GameMode::Modes::AiVsAi: m_GameMode = new GameModeAIvAI(); break;
+	case GameMode::Modes::PlayerVsPlayer: m_GameMode = std::make_unique<GameModePvP>(); break;
+		case GameMode::Modes::PlayerVsAi: m_GameMode = std::make_unique<GameModePvAI>(); break;
+		case GameMode::Modes::AiVsAi: m_GameMode = std::make_unique<GameModeAIvAI>(); break;
 	}
 
+}
+
+void Board::drawActivePlayerChip(sf::RenderWindow& window) const
+{
+	std::vector<sf::Vector2f> holes = m_ChipHoles->GetBottomHolesPositions();
+	float chipRadius = m_ChipHoles->GetChipRadius();
+	int activeColumn = m_GameMode->GetChoosenColumn();
+	float choosenX = holes[activeColumn].x;
+	sf::Color chipColor = m_GameMode->GetActivePlayerColor();
+
+	sf::CircleShape circle;
+	circle.setRadius(chipRadius);
+	circle.setFillColor(chipColor);
+	circle.setPosition(choosenX, -chipRadius/2);
+
+	window.draw(circle);
+	
 }

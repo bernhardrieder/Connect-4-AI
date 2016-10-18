@@ -12,6 +12,16 @@ GameMode::~GameMode()
 {
 }
 
+int GameMode::GetChoosenColumn() const
+{
+	return m_ChoosenColumn;
+}
+
+sf::Color GameMode::GetActivePlayerColor()
+{
+	return m_PlayerColors[m_ActivePlayer];
+}
+
 bool GameMode::HasSomebodyWon(sf::Color& outWinColor) const
 {
 	outWinColor = m_WinColor;
@@ -33,6 +43,25 @@ bool GameMode::chipInput(int column, ChipHoles& chipHoles)
 		return true;
 	}
 	return false;
+}
+
+void GameMode::chipInputPlayer(const sf::Event& event, ChipHoles& chipHoles)
+{
+	if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::Left)
+		{
+			m_ChoosenColumn = Clamp(--m_ChoosenColumn, 0, GlobalVariables::GetColumnCount() - 1);
+		}
+		else if (event.key.code == sf::Keyboard::Right)
+		{
+			m_ChoosenColumn = Clamp(++m_ChoosenColumn, 0, GlobalVariables::GetColumnCount() - 1);
+		}
+		else if (event.key.code == sf::Keyboard::Down)
+		{
+			chipInput(m_ChoosenColumn, chipHoles);
+		}
+	}
 }
 
 bool GameMode::checkForWin(int row, int column)
