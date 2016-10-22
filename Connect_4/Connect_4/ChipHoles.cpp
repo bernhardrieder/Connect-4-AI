@@ -52,8 +52,8 @@ bool ChipHoles::PutChipInColumn(int column, sf::Color chipColor, int& outRow)
 	int& row = m_UsedChipHolesRowPerColumn[column];
 	if (row < m_RowCount)
 	{
+		//std::cout << "chip input in row  " << row +1<< " and column "<< column+1 << std::endl;
 		m_ChipHoles[row*m_ColumnCount + column].setFillColor(chipColor);
-		//std::cout << "chip input in row  " << row << " and column "<< column+1 << std::endl;
 		outRow = row++;
 		return true;
 	}

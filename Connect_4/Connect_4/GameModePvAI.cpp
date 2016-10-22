@@ -30,8 +30,11 @@ void GameModePvAI::chipInputAi(ChipHoles& chipHoles)
 	bool chipSet = false;
 
 	while(!chipSet)
-	{
+	{	//NEGAMAX CALLER EVALUATION_SIGN = -1
+		//NEGAMAX OPPONENT EVALUATION_SIGN = 1
+		Move bestMove = ai::Negamax::GetBestMove(ai::BoardSimulation(m_PlacedPlayerChips, m_Player, m_LastMove, 1), 4, -1);
+		std::cout << "\nAI BESTMOVE: " << to_string(bestMove) << std::endl;
 		int targetColumn = RandomInt(0, GlobalVariables::GetColumnCount() - 1); //search best number! implement AI!
-		chipSet = chipInput(targetColumn, chipHoles);
+		chipSet = chipInput(bestMove.column, chipHoles);
 	}
 }

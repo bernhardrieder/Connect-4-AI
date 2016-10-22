@@ -31,6 +31,12 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="BoardSimulation.cpp">
+      <Filter>Quelldateien\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="negamax.cpp">
+      <Filter>Quelldateien\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -63,6 +69,12 @@
     <ClInclude Include="stdafx.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="BoardSimulation.h">
+      <Filter>Headerdateien\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Negamax.h">
+      <Filter>Headerdateien\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Quelldateien">
@@ -73,6 +85,9 @@
     </Filter>
     <Filter Include="Headerdateien\AI">
       <UniqueIdentifier>{b68f6448-f761-490b-b3d1-ac7bd10682d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\AI">
+      <UniqueIdentifier>{16673939-3dea-48b1-9d9c-12515e11c701}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 #pragma once
+#include "stdafx.h"
+#include "GameMode.h"
 
 template<typename T>
 static T Clamp(const T& x, const T& low, const T& high)
@@ -31,4 +33,11 @@ inline std::string to_string(sf::Color color)
 inline int RandomInt(int min, int max)
 {
 	return min + (rand() % static_cast<int>(max - min + 1));
+}
+
+inline std::string to_string(const connect4::Move& move)
+{
+	std::string str{ "Move: Column = " };
+	str.append(std::to_string(static_cast<short>(move.column+1))).append(", Row = ").append(std::to_string(static_cast<short>(move.row+1)));
+	return str;
 }

@@ -60,7 +60,7 @@ void Board::createBoard()
 	std::vector<sf::Vector2f> holes = m_ChipHoles->GetBottomHolesPositions();
 	m_VideoMode.width = static_cast<int>((holes.end()-1)->x + chipRadius * 2 + BorderOffset.x);
 	m_VideoMode.height = static_cast<int>((holes.end()-1)->y + chipRadius * 2 + BorderOffset.y);
-	m_BackgroundShape.setSize(sf::Vector2f(m_VideoMode.width, m_VideoMode.height));
+	m_BackgroundShape.setSize(sf::Vector2f(static_cast<float>(m_VideoMode.width), static_cast<float>(m_VideoMode.height)));
 	m_BackgroundShape.setPosition(0, chipRadius * 2);
 	m_BackgroundShape.setFillColor(sf::Color::Blue);
 }

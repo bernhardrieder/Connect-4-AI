@@ -7,18 +7,24 @@ namespace connect4
 	{
 	public:
 		static sf::Font& GetTextFont();
-		static int GetRowCount();
-		static int GetColumnCount();
+		static unsigned char GetRowCount();
+		static unsigned char GetColumnCount();
 		static void GetPlayerColors(sf::Color& outColorPlayer1, sf::Color& outColorPlayer2);
-		static int GetWinAmount();
+		static sf::Color GetPlayerColor(char playerNumber);
+		static unsigned char GetWinAmount();
 	private:
 		static sf::Font m_TextFont;
-		static int m_RowCount;
-		static int m_ColumnCount;
+		static unsigned char m_RowCount;
+		static unsigned char m_ColumnCount;
 		static sf::Color m_PlayerColors[2];
-		static int m_WinAmount;
+		static unsigned char m_WinAmount;
 		static std::string m_FontFile;
 	};
+
+	inline unsigned char GlobalVariables::GetWinAmount()
+	{
+		return m_WinAmount;
+	}
 
 	inline sf::Font& GlobalVariables::GetTextFont()
 	{
@@ -32,12 +38,12 @@ namespace connect4
 		return m_TextFont;
 	}
 
-	inline int GlobalVariables::GetRowCount()
+	inline unsigned char GlobalVariables::GetRowCount()
 	{
 		return m_RowCount;
 	}
 
-	inline int GlobalVariables::GetColumnCount()
+	inline unsigned char GlobalVariables::GetColumnCount()
 	{
 		return m_ColumnCount;
 	}
@@ -48,8 +54,8 @@ namespace connect4
 		outColorPlayer2 = m_PlayerColors[1];
 	}
 
-	inline int GlobalVariables::GetWinAmount()
+	inline sf::Color GlobalVariables::GetPlayerColor(char playerNumber)
 	{
-		return m_WinAmount;
+		return m_PlayerColors[playerNumber];
 	}
 }

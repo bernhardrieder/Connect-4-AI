@@ -69,9 +69,9 @@ void Game::selectGameMode()
 	aiVsAi.setString("3 - AI versus AI");
 	aiVsAi.setPosition(70, 165);
 	sf::Text info = startText;
-	info.setString("Use left/ right and down arrow key for input");
+	info.setString("Use left/ right/ down arrow keys for ingame input");
 	info.setCharacterSize(30);
-	info.setPosition(70, 265);
+	info.setPosition(40, 265);
 
 	std::vector<sf::Drawable*> drawables;
 	drawables.push_back(&startText);

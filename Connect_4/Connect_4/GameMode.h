@@ -4,6 +4,21 @@
 
 namespace connect4
 {
+	class Board;
+
+	struct Move
+	{
+		Move(unsigned char row, unsigned char column)
+		{
+			this->row = row;
+			this->column = column;
+		}
+		unsigned char row;
+		unsigned char column;
+
+		static Move None;
+	};
+
 	class GameMode
 	{
 	public:
@@ -15,11 +30,12 @@ namespace connect4
 		};
 
 		virtual void CheckInputEvent(const sf::Event& event, ChipHoles& chipHoles) = 0;
-		int GetChoosenColumn() const;
+		unsigned char GetChoosenColumn() const;
 		sf::Color GetActivePlayerColor();
 		bool HasSomebodyWon(sf::Color& outWinColor) const;
 		virtual ~GameMode();
 
+		static bool CheckForWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer);
 	protected:
 		GameMode();
 
@@ -28,25 +44,26 @@ namespace connect4
 
 		void initPlayerChips();
 
-		int m_ActivePlayer = 0;
+		char m_ActivePlayer = 0;
 		bool m_HasSomebodyWon = false;
-		int m_ChoosenColumn = 3;
+		char m_ChoosenColumn = 3;
+		std::vector<std::vector<char>> m_PlacedPlayerChips;
+		Move m_LastMove = Move::None;
 	private:
 		void saveChipInputForPlayer(int row, int column);
-		bool checkForWin(int row, int column);
-		bool checkForVerticalWin(int row, int column);
-		bool checkForHorizontalWin(int row, int column);
-		bool checkForDiagonalUpRightWin(int row, int column); //checks '/'
-		bool checkForDiagonalDownRightWin(int row, int column); //checks '\'
+		static bool checkForVerticalWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer);
+		static bool checkForHorizontalWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer);
+		static bool checkForDiagonalUpRightWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer); //checks '/'
+		static bool checkForDiagonalDownRightWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer); //checks '\'
 		void setActivePlayerToWinner();
 		//http://de.cppreference.com/w/cpp/language/lambda
-		static bool winCheckHelperForHorizontalAndVertical(int clampValue, int clampMax, std::function<bool(int)> func);
-		bool winCheckHelperForDiagonal(int row, int column, std::function<void(int&, int&)> funcForRowAndColumnPerIteration);
+		static bool winCheckHelperForHorizontalAndVertical(char clampValue, char clampMax, std::function<bool(const char&)> func);
+		static bool winCheckHelperForDiagonal(Move lastMove, std::function<void(Move&)> perIterationChange, std::function<bool(const Move&)> iterationIfCond);
 
 		sf::Color m_PlayerColors[2];
 		sf::Color m_WinColor = sf::Color::White;
 
-		std::vector<std::vector<bool>> m_PlayerChips[2];
+	
 	};
 }
 
