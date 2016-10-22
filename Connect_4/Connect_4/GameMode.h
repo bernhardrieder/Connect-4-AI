@@ -48,7 +48,7 @@ namespace connect4
 		bool m_HasSomebodyWon = false;
 		char m_ChoosenColumn = 3;
 		std::vector<std::vector<char>> m_PlacedPlayerChips;
-		Move m_LastMove = Move::None;
+		Move m_LastMove = Move(0,0);
 	private:
 		void saveChipInputForPlayer(int row, int column);
 		static bool checkForVerticalWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer);

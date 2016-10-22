@@ -12,6 +12,11 @@ namespace connect4
 		static void GetPlayerColors(sf::Color& outColorPlayer1, sf::Color& outColorPlayer2);
 		static sf::Color GetPlayerColor(char playerNumber);
 		static unsigned char GetWinAmount();
+
+		static short Short_Mininum;
+		static short Short_Maximum;
+		static int Integer_Minimum;
+		static int Integer_Maximum;
 	private:
 		static sf::Font m_TextFont;
 		static unsigned char m_RowCount;

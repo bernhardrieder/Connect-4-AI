@@ -49,17 +49,18 @@ std::vector<Move> BoardSimulation::GetNextPlayersPossibleMoves()
 	return std::move(possibleMoves);
 }
 
-//MANIPULATE ACTIVE BOARD?????
-BoardSimulation BoardSimulation::MakeNextPlayersMove(/*const unsigned char& targetColumn*/ const Move& move) const
+BoardSimulation BoardSimulation::MakeNextPlayersMove(const Move& move)
 {
 	//check if column is available? shouldnt be possible to due getpossiblemoves was called before
-	//Move move (++m_NextUsableRowInColumn[targetColumn], targetColumn);
 	char nextPlayer = (m_ActivePlayer + 1) % 2;
-	//m_PlacedPlayerChips[move.row][move.column] = nextPlayer;
-	placed_chips discs = m_PlacedPlayerChips;
-	discs[move.row][move.column] = nextPlayer;
+	m_PlacedPlayerChips[move.row][move.column] = nextPlayer;
 
-	return BoardSimulation(discs, nextPlayer, move);
+	return BoardSimulation(m_PlacedPlayerChips, nextPlayer, move);
+}
+
+void BoardSimulation::Undo(const Move& move)
+{
+	m_PlacedPlayerChips[move.row][move.column] = -1;
 }
 
 int BoardSimulation::EvaluatePlayerSituation()
