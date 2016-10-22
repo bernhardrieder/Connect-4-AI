@@ -4,11 +4,15 @@
 
 namespace connect4
 {
-	class Board;
-
+	typedef std::vector<std::vector<char>> placed_discs;
 	struct Move
 	{
-		Move(unsigned char row, unsigned char column)
+		Move()
+		{
+			this->row = None.row;
+			this->column = None.column;
+		}
+		Move(const unsigned char& row, const unsigned char& column)
 		{
 			this->row = row;
 			this->column = column;
@@ -35,7 +39,7 @@ namespace connect4
 		bool HasSomebodyWon(sf::Color& outWinColor) const;
 		virtual ~GameMode();
 
-		static bool CheckForWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer);
+		static bool CheckForWin(const Move& lastMove, const placed_discs& placedPlayerChips, const char& activePlayer);
 	protected:
 		GameMode();
 

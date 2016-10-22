@@ -8,7 +8,10 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
+#include <chrono>
 
+#include "BoardSimulation.h"
+#include "Negamax.h"
 #include "Helper.h"
 #include "Game.h"
 #include "ChipHoles.h"
@@ -18,5 +21,3 @@
 #include "GameModePvP.h"
 #include "GameModePvAI.h"
 #include "GameModeAIvAI.h"
-#include "BoardSimulation.h"
-#include "Negamax.h"

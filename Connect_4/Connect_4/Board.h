@@ -12,7 +12,7 @@ namespace connect4
 		~Board();
 
 		// draw everything here...
-		void Draw(sf::RenderWindow& window) const; //TODO: draw circle above holes to visualize active column to make things easier
+		void Draw(sf::RenderWindow& window) const; 
 		void ProcessEvent(const sf::Event& event) const;
 		void SetGameMode(GameMode::Modes mode);
 		sf::VideoMode GetVideoMode() const;

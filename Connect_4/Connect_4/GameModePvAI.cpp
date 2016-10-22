@@ -32,9 +32,8 @@ void GameModePvAI::chipInputAi(ChipHoles& chipHoles)
 	while(!chipSet)
 	{	
 		auto simulation = ai::BoardSimulation(m_PlacedPlayerChips, m_Player, m_LastMove);
-		//Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
-		Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
-		//std::cout << "\nAI BESTMOVE: " << to_string(bestMove) << std::endl;
+		Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
+		//Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
 		chipSet = chipInput(bestMove.column, chipHoles);
 	}
 }

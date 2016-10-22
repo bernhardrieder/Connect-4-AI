@@ -14,7 +14,7 @@ GameMode::~GameMode()
 {
 }
 
-bool GameMode::CheckForWin(const Move& lastMove, const std::vector<std::vector<char>>& placedPlayerChips, const char& activePlayer)
+bool GameMode::CheckForWin(const Move& lastMove, const placed_discs& placedPlayerChips, const char& activePlayer)
 {
 	if (checkForVerticalWin(lastMove, placedPlayerChips, activePlayer))
 		return true;
