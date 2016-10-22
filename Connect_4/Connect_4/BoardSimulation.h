@@ -11,7 +11,7 @@ namespace connect4
 		{
 		public:
 			//START SIMULATION WITH (ACTIVEPLAYER-1) % 2 -> gets right player in first move iteration for negamax
-			BoardSimulation(const placed_chips placedChips, const char currentPlayer, connect4::Move lastMove, char evaluation_sign);
+			BoardSimulation(const placed_chips placedChips, const char currentPlayer, connect4::Move lastMove);
 			~BoardSimulation();
 
 			std::vector<Move> GetNextPlayersPossibleMoves(); //return possible input columns
@@ -24,7 +24,14 @@ namespace connect4
 			std::vector<unsigned char> m_NextUsableRowInColumn;
 			char m_ActivePlayer;
 			connect4::Move m_LastMove;
-			char m_EvaluationSign;
+
+			/*
+				From Wikpedia:
+				ROOT EVALUATION_SIGN PLAYER 1 = 1
+				ROOT EVALUATION_SIGN PLAYER 2 = -1
+			*/
+
+			//char m_EvaluationSign;
 
 			bool m_PlayerWon[2] {false, false};
 			bool m_IsDraw = false;

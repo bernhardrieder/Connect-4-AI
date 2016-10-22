@@ -7,14 +7,14 @@ namespace connect4
 		class Negamax
 		{
 		public:
-			static Move GetBestMove(BoardSimulation boardSimulation, char depth, char ev_sign);
-			static Move GetBestMoveWithAB(BoardSimulation boardSimulation, int maxDepth);
+			static Move GetBestMove(BoardSimulation boardSimulation, char depth);
+			static Move GetBestMoveWithAB(BoardSimulation boardSimulation, char depth);
 		protected:
 			Negamax() {}
 			~Negamax() {}
-
-			static std::tuple<int, Move> negamax(BoardSimulation boardSimulation, char depth, char ev_sign);
-			static std::tuple<int, Move> abNegamax(BoardSimulation boardSimulation, int maxDepth, int currentDepth, int alpha, int beta);
+			
+			static std::tuple<int, Move> negamax(BoardSimulation boardSimulation, char depth);
+			static std::tuple<int, Move> abNegamax(BoardSimulation boardSimulation, char depth, int alpha, int beta);
 			static bool checkIfMoveUsable(const Move& move);
 
 			static short MIN_Infinity;

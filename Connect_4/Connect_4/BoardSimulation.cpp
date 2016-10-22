@@ -4,7 +4,7 @@
 using namespace connect4;
 using namespace connect4::ai;
 
-BoardSimulation::BoardSimulation(const placed_chips placedChips, const char currentPlayer, connect4::Move lastMove, char evaluation_sign) : m_PlacedPlayerChips(placedChips), m_ActivePlayer(currentPlayer), m_LastMove(lastMove), m_EvaluationSign(evaluation_sign)
+BoardSimulation::BoardSimulation(const placed_chips placedChips, const char currentPlayer, connect4::Move lastMove) : m_PlacedPlayerChips(placedChips), m_ActivePlayer(currentPlayer), m_LastMove(lastMove)
 {
 	//CHECKED -> WORKS AS INTENDED
 	//init consumed rows
@@ -59,7 +59,7 @@ BoardSimulation BoardSimulation::MakeNextPlayersMove(/*const unsigned char& targ
 	placed_chips discs = m_PlacedPlayerChips;
 	discs[move.row][move.column] = nextPlayer;
 
-	return BoardSimulation(discs, nextPlayer, move, m_EvaluationSign);
+	return BoardSimulation(discs, nextPlayer, move);
 }
 
 int BoardSimulation::EvaluatePlayerSituation()
@@ -140,7 +140,11 @@ int BoardSimulation::EvaluatePlayerSituation()
 	//subtract opponent points from current player points
 	//return this points
 	//int discSum = m_EvaluationSign*(sumPlayer[0] - sumPlayer[1]); // OPTION 1
-	int discSum = (sumPlayer[0] - sumPlayer[1]); // OPTION 1
+	int discSum = (sumPlayer[(m_ActivePlayer + 1) % 2] - sumPlayer[m_ActivePlayer]); //OPTION 2
+
+
+	//int discSum = (sumPlayer[m_ActivePlayer] - sumPlayer[(m_ActivePlayer + 1) % 2]); //OPTION 1
+	//int discSum = (sumPlayer[0] - sumPlayer[1]); // OPTION 1
 	//int discSum = m_EvaluationSign*(sumPlayer[1] - sumPlayer[0]); // OPTION 2
 	//int discSum = m_EvaluationSign*(sumPlayer[m_ActivePlayer] - sumPlayer[(m_ActivePlayer + 1) % 2]); //OPTION 1
 	//int discSum = m_EvaluationSign*(sumPlayer[m_ActivePlayer] - sumPlayer[(m_ActivePlayer + 1) % 2]); //OPTION 1

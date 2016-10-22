@@ -21,9 +21,15 @@ void GameModeAIvAI::chipInputAi(ChipHoles& chipHoles)
 {
 	bool chipSet = false;
 
+	if (m_LastMove.column == Move::None.column)
+	{
+		m_LastMove = Move(0, 0);
+	}
 	while (!chipSet)
 	{
-		int targetColumn = RandomInt(0, GlobalVariables::GetColumnCount() - 1); //search best number! implement AI!
-		chipSet = chipInput(targetColumn, chipHoles);
+		//Move bestMove = ai::Negamax::GetBestMove(ai::BoardSimulation(m_PlacedPlayerChips, (m_ActivePlayer+1)%2, m_LastMove), 7);
+		Move bestMove = ai::Negamax::GetBestMoveWithAB(ai::BoardSimulation(m_PlacedPlayerChips, (m_ActivePlayer + 1) % 2, m_LastMove), 10);
+		//std::cout << "\nAI BESTMOVE: " << to_string(bestMove) << std::endl;
+		chipSet = chipInput(bestMove.column, chipHoles);
 	}
 }
