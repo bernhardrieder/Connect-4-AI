@@ -10,6 +10,6 @@ namespace connect4
 		GameModePvP();
 		~GameModePvP() override;
 
-		void CheckInputEvent(const sf::Event& event, ChipHoles& chipHoles) override;
+		void CheckInputEvent(const sf::Event& event, DiscHoles& chipHoles) override;
 	};
 }

@@ -4,9 +4,6 @@
     <ClCompile Include="Board.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ChipHoles.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -37,12 +34,12 @@
     <ClCompile Include="negamax.cpp">
       <Filter>Quelldateien\AI</Filter>
     </ClCompile>
+    <ClCompile Include="DiscHoles.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="ChipHoles.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
@@ -74,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="Negamax.h">
       <Filter>Headerdateien\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscHoles.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ Move Negamax::GetBestMove(BoardSimulation& boardSimulation, const char& depth)
 
 	Move& move = result.move;	//move;
 
-	if (checkIfMoveUsable(move))
+	if (checkIfMoveIsUsable(move))
 		std::cerr << "ERROR: negamax results in an error move!!\n";
 	return move;
 }
@@ -33,7 +33,7 @@ Move Negamax::GetBestMoveWithAB(BoardSimulation& boardSimulation, const char& de
 
 	Move& move = result.move;	//move;
 
-	if (checkIfMoveUsable(move))
+	if (checkIfMoveIsUsable(move))
 		std::cerr << "ERROR: negamax with ab pruning results in an error move!!\n";
 	return move;
 }
@@ -107,7 +107,7 @@ NegamaxResult Negamax::abNegamax(BoardSimulation& boardSimulation, const char& d
 	return NegamaxResult(bestScore, bestMove);
 }
 
-bool Negamax::checkIfMoveUsable(const Move& move)
+bool Negamax::checkIfMoveIsUsable(const Move& move)
 {
 	return move.row == Move::None.row && move.column == Move::None.column;
 }

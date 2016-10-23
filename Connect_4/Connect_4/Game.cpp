@@ -138,7 +138,7 @@ void Game::startGameMode()
 			break;
 		}
 		//its possible to win the game with the last chip, so check and set this after has won check!
-		if(m_Board.AreAllHolesFilledWithChips())
+		if(m_Board.AreAllHolesFilledWithDiscs())
 		{
 			m_IsDraw = true;
 			showWinnerOrDraw();

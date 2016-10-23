@@ -10,7 +10,7 @@ namespace connect4
 		static unsigned char GetRowCount();
 		static unsigned char GetColumnCount();
 		static void GetPlayerColors(sf::Color& outColorPlayer1, sf::Color& outColorPlayer2);
-		static sf::Color GetPlayerColor(char playerNumber);
+		static sf::Color GetPlayerColor(const char& playerNumber);
 		static unsigned char GetWinAmount();
 
 		static short Short_Mininum;
@@ -59,7 +59,7 @@ namespace connect4
 		outColorPlayer2 = m_PlayerColors[1];
 	}
 
-	inline sf::Color GlobalVariables::GetPlayerColor(char playerNumber)
+	inline sf::Color GlobalVariables::GetPlayerColor(const char& playerNumber)
 	{
 		return m_PlayerColors[playerNumber];
 	}

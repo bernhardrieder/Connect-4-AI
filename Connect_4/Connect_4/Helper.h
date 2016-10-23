@@ -8,7 +8,7 @@ static T Clamp(const T& x, const T& low, const T& high)
 	return x < low ? low : (x > high ? high : x);
 }
 
-inline std::string to_string(sf::Color color)
+inline std::string to_string(const sf::Color& color)
 {
 	if (color == sf::Color::White)
 		return "White";
@@ -28,11 +28,6 @@ inline std::string to_string(sf::Color color)
 		return "Yellow";
 	if (color == sf::Color::Transparent)
 		return "Transparent";
-}
-
-inline int RandomInt(int min, int max)
-{
-	return min + (rand() % static_cast<int>(max - min + 1));
 }
 
 inline std::string to_string(const connect4::Move& move)

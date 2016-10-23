@@ -20,7 +20,6 @@ namespace connect4
 
 		void renderLoop(const sf::VideoMode videoMode, const std::vector<sf::Drawable*>& drawable, std::function<void(sf::RenderWindow&, sf::Event&)> funcEvents);
 
-		//std::shared_ptr<sf::RenderWindow> m_RenderWindow = nullptr;
 		Board m_Board;
 		sf::Color m_WinnerColor;
 		bool m_IsRunning = true;

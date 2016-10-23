@@ -43,13 +43,13 @@ bool GameMode::HasSomebodyWon(sf::Color& outWinColor) const
 	return m_HasSomebodyWon;
 }
 
-bool GameMode::chipInput(int column, ChipHoles& chipHoles)
+bool GameMode::discInput(int column, DiscHoles& chipHoles)
 {
 	if (m_HasSomebodyWon) return false;
 	int row;
 	if(chipHoles.PutChipInColumn(column, m_PlayerColors[m_ActivePlayer], row))
 	{
-		saveChipInputForPlayer(row, column);
+		saveDiscInputForPlayer(row, column);
 		m_LastMove = Move(row, column);
 		if (CheckForWin(m_LastMove, m_PlacedPlayerChips, m_ActivePlayer))
 			setActivePlayerToWinner();
@@ -61,7 +61,7 @@ bool GameMode::chipInput(int column, ChipHoles& chipHoles)
 	return false;
 }
 
-void GameMode::chipInputPlayer(const sf::Event& event, ChipHoles& chipHoles)
+void GameMode::discInputPlayer(const sf::Event& event, DiscHoles& chipHoles)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
@@ -75,8 +75,21 @@ void GameMode::chipInputPlayer(const sf::Event& event, ChipHoles& chipHoles)
 		}
 		else if (event.key.code == sf::Keyboard::Down)
 		{
-			chipInput(m_ChoosenColumn, chipHoles);
+			discInput(m_ChoosenColumn, chipHoles);
 		}
+	}
+}
+
+void GameMode::discInputAi(DiscHoles& chipHoles)
+{
+	bool chipSet = false;
+
+	while (!chipSet)
+	{
+		auto simulation = ai::BoardSimulation(m_PlacedPlayerChips, (m_ActivePlayer + 1) % 2, m_LastMove);
+		Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
+		//Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 5);
+		chipSet = discInput(bestMove.column, chipHoles);
 	}
 }
 
@@ -175,7 +188,7 @@ void GameMode::initPlayerChips()
 	}
 }
 
-void GameMode::saveChipInputForPlayer(int row, int column)
+void GameMode::saveDiscInputForPlayer(int row, int column)
 {
 	m_PlacedPlayerChips[row][column] = m_ActivePlayer;
 

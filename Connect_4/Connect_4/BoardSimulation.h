@@ -17,7 +17,7 @@ namespace connect4
 			~BoardSimulation();
 
 			std::vector<Move> GetNextPlayersPossibleMoves(); //return possible input columns
-			BoardSimulation MakeNextPlayersMove(/*const unsigned char& targetColumn*/ const Move& move);
+			BoardSimulation MakeNextPlayersMove(const Move& move);
 			void Undo(const Move& move);
 			int EvaluatePlayerSituation(); //evaluate currents player situation
 			bool IsGameOver(); //is a further move possible?

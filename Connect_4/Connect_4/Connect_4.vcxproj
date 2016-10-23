@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="BoardSimulation.cpp" />
-    <ClCompile Include="ChipHoles.cpp" />
+    <ClCompile Include="DiscHoles.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMode.cpp" />
     <ClCompile Include="GameModeAIvAI.cpp" />
@@ -175,7 +175,7 @@
   <ItemGroup>
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardSimulation.h" />
-    <ClInclude Include="ChipHoles.h" />
+    <ClInclude Include="DiscHoles.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMode.h" />
     <ClInclude Include="GameModeAIvAI.h" />

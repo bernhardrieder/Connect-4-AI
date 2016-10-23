@@ -10,9 +10,6 @@ namespace connect4
 		GameModeAIvAI();
 		~GameModeAIvAI() override;
 
-		void CheckInputEvent(const sf::Event& event, ChipHoles& chipHoles) override;
-
-	private:
-		void chipInputAi(ChipHoles& chipHoles);
+		void CheckInputEvent(const sf::Event& event, DiscHoles& chipHoles) override;
 	};
 }

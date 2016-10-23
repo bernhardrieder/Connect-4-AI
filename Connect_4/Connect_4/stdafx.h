@@ -14,7 +14,7 @@
 #include "Negamax.h"
 #include "Helper.h"
 #include "Game.h"
-#include "ChipHoles.h"
+#include "DiscHoles.h"
 #include "Board.h"
 #include "GlobalVariables.h"
 #include "GameMode.h"

@@ -24,7 +24,7 @@ namespace connect4
 			~Negamax() {}
 			static NegamaxResult negamax(BoardSimulation& boardSimulation, const char& depth);
 			static NegamaxResult abNegamax(BoardSimulation& boardSimulation, const char& depth, int alpha, int beta);
-			static bool checkIfMoveUsable(const Move& move);
+			static bool checkIfMoveIsUsable(const Move& move);
 		};
 
 
