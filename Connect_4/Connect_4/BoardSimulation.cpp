@@ -104,7 +104,7 @@ std::vector<potential_win_discs_summary> BoardSimulation::searchPotentialWinDisc
 
 	for (char player = 0; player < 2; ++player)
 	{
-		searchPotentialWinDiscsHorizontal(disc, player);
+		searchPotentialWinDiscsHorizontal(disc, player,0);
 		searchPotentialWinDiscsVertical(disc, player);
 		searchPotentialWinDiscsDiagonalDownRight(disc, player);
 		searchPotentialWinDiscsDiagonalUpRight(disc, player);
@@ -124,7 +124,7 @@ void BoardSimulation::initPotentialWinDiscsWithZero(std::vector<potential_win_di
 	}
 }
 
-void BoardSimulation::searchPotentialWinDiscsHorizontal(std::vector<potential_win_discs_summary>& potentialDisc, const char& player)
+void BoardSimulation::searchPotentialWinDiscsHorizontal(std::vector<potential_win_discs_summary>& potentialDisc, const char& player, char rows)
 {
 	for (char row = 0; row < GlobalVariables::GetRowCount(); ++row)
 	{

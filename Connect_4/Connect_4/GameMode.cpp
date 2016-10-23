@@ -6,8 +6,7 @@ Move Move::None = Move(std::numeric_limits<unsigned char>::max(), std::numeric_l
 
 GameMode::GameMode()
 {
-	initPlayerChips();
-	GlobalVariables::GetPlayerColors(m_PlayerColors[0], m_PlayerColors[1]);
+	initPlayerDiscs();
 }
 
 GameMode::~GameMode()
@@ -32,9 +31,9 @@ unsigned char GameMode::GetChoosenColumn() const
 	return m_ChoosenColumn;
 }
 
-sf::Color GameMode::GetActivePlayerColor()
+sf::Color GameMode::GetActivePlayerColor() const
 {
-	return m_PlayerColors[m_ActivePlayer];
+	return GlobalVariables::GetPlayerColor(m_ActivePlayer);
 }
 
 bool GameMode::HasSomebodyWon(sf::Color& outWinColor) const
@@ -43,15 +42,15 @@ bool GameMode::HasSomebodyWon(sf::Color& outWinColor) const
 	return m_HasSomebodyWon;
 }
 
-bool GameMode::discInput(int column, DiscHoles& chipHoles)
+bool GameMode::discInput(const char& column, DiscHoles& chipHoles)
 {
 	if (m_HasSomebodyWon) return false;
 	int row;
-	if(chipHoles.PutChipInColumn(column, m_PlayerColors[m_ActivePlayer], row))
+	if(chipHoles.PutChipInColumn(column, GetActivePlayerColor(), row))
 	{
-		saveDiscInputForPlayer(row, column);
 		m_LastMove = Move(row, column);
-		if (CheckForWin(m_LastMove, m_PlacedPlayerChips, m_ActivePlayer))
+		saveDiscInputForPlayer(m_LastMove);
+		if (CheckForWin(m_LastMove, m_PlacedDiscs, m_ActivePlayer))
 			setActivePlayerToWinner();
 		else
 			m_ActivePlayer = (m_ActivePlayer + 1) % 2;
@@ -86,9 +85,10 @@ void GameMode::discInputAi(DiscHoles& chipHoles)
 
 	while (!chipSet)
 	{
-		auto simulation = ai::BoardSimulation(m_PlacedPlayerChips, (m_ActivePlayer + 1) % 2, m_LastMove);
-		Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
-		//Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 5);
+		//start simulation with previous player!
+		auto simulation = ai::BoardSimulation(m_PlacedDiscs, (m_ActivePlayer + 1) % 2, m_LastMove);
+		//Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
+		Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
 		chipSet = discInput(bestMove.column, chipHoles);
 	}
 }
@@ -107,19 +107,18 @@ bool GameMode::checkForHorizontalWin(const Move& lastMove, const std::vector<std
 	return winCheckHelperForHorizontalAndVertical(lastMove.column, GlobalVariables::GetColumnCount() - 1, func);
 }
 
-bool GameMode::winCheckHelperForHorizontalAndVertical(char clampValue, char clampMax, std::function<bool(const char&)> func)
+bool GameMode::winCheckHelperForHorizontalAndVertical(char clampValue, const char& clampMax, std::function<bool(const char&)>& func)
 {
 	unsigned char min = Clamp<char>(clampValue - 3, 0, clampMax);
 	unsigned char max = Clamp<char>(clampValue + 3, 0, clampMax);
 	unsigned char count = 0;
-	static const unsigned char winAmount = GlobalVariables::GetWinAmount();
 
 	for (; min <= max; ++min)
 	{
 		if (func(min))
 		{
 			++count;
-			if (count == winAmount)
+			if (count == GlobalVariables::GetWinAmount())
 				return true;
 		}
 		else
@@ -134,7 +133,8 @@ bool GameMode::checkForDiagonalUpRightWin(const Move& lastMove, const std::vecto
 {
 	std::function<void(Move&)> perIterationChange = [](Move& move) { ++move.row; ++move.column; };
 	std::function<bool(const Move&)> ifCondInIteration = [&placedPlayerChips, &activePlayer](const Move& move) { return placedPlayerChips[move.row][move.column] == activePlayer; };
-	return winCheckHelperForDiagonal(Move(lastMove.row - 3, lastMove.column - 3), perIterationChange, ifCondInIteration);
+	Move move = Move(lastMove.row - 3, lastMove.column - 3);
+	return winCheckHelperForDiagonal(move, perIterationChange, ifCondInIteration);
 }
 
 //checks '\'
@@ -142,25 +142,22 @@ bool GameMode::checkForDiagonalDownRightWin(const Move& lastMove, const std::vec
 {
 	std::function<void(Move&)> perIterationChange = [](Move& move) { ++move.row; --move.column; };
 	std::function<bool(const Move&)> ifCondInIteration = [&placedPlayerChips, &activePlayer](const Move& move) { return placedPlayerChips[move.row][move.column] == activePlayer; };
-	return winCheckHelperForDiagonal(Move(lastMove.row - 3, lastMove.column + 3), perIterationChange, ifCondInIteration);
+	Move move = Move(lastMove.row - 3, lastMove.column + 3);
+	return winCheckHelperForDiagonal(move, perIterationChange, ifCondInIteration);
 }
 
-bool GameMode::winCheckHelperForDiagonal(Move lastMove, std::function<void(Move&)> perIterationChange, std::function<bool(const Move&)> iterationIfCond)
+bool GameMode::winCheckHelperForDiagonal(Move& lastMove, std::function<void(Move&)>& perIterationChange, std::function<bool(const Move&)>& iterationIfCond)
 {
 	int count = 0;
 
-	static const unsigned char rowCount = GlobalVariables::GetRowCount();
-	static const unsigned char columnCount = GlobalVariables::GetColumnCount();
-	static const unsigned char winAmount = GlobalVariables::GetWinAmount();
-
 	for (int i = 0; i < 7; ++i, perIterationChange(lastMove))
 	{
-		if (lastMove.row < 0 || lastMove.column < 0 || lastMove.row >= rowCount || lastMove.column >= columnCount)
+		if (lastMove.row < 0 || lastMove.column < 0 || lastMove.row >= GlobalVariables::GetRowCount() || lastMove.column >= GlobalVariables::GetColumnCount())
 			continue;
 		if (iterationIfCond(lastMove))
 		{
 			++count;
-			if (count == winAmount)
+			if (count == GlobalVariables::GetWinAmount())
 				return true;
 		}
 		else
@@ -172,15 +169,15 @@ bool GameMode::winCheckHelperForDiagonal(Move lastMove, std::function<void(Move&
 void GameMode::setActivePlayerToWinner()
 {
 	m_HasSomebodyWon = true;
-	m_WinColor = m_PlayerColors[m_ActivePlayer];
+	m_WinColor = GetActivePlayerColor();
 
 	std::cout << "Player " << m_ActivePlayer + 1 << " with color " << to_string(m_WinColor) << " has won the game!\n";
 }
 
-void GameMode::initPlayerChips()
+void GameMode::initPlayerDiscs()
 {
-	m_PlacedPlayerChips.resize(GlobalVariables::GetRowCount());
-	for (auto& a : m_PlacedPlayerChips)
+	m_PlacedDiscs.resize(GlobalVariables::GetRowCount());
+	for (auto& a : m_PlacedDiscs)
 	{
 		a.resize(GlobalVariables::GetColumnCount());
 		for (auto& i : a)
@@ -188,11 +185,11 @@ void GameMode::initPlayerChips()
 	}
 }
 
-void GameMode::saveDiscInputForPlayer(int row, int column)
+void GameMode::saveDiscInputForPlayer(const Move& move)
 {
-	m_PlacedPlayerChips[row][column] = m_ActivePlayer;
+	m_PlacedDiscs[move.row][move.column] = m_ActivePlayer;
 
-	//std::cout << "Player " << m_ActivePlayer +1 << " has following chips placed:\n";
+	//std::cout << "Player " << m_ActivePlayer +1 << " has following discs placed:\n";
 	//for(int r = GlobalVariables::GetRowCount()-1 ; r >= 0 ; --r)
 	//{
 	//	std::cout << "Row " << r+1 << ":\t";

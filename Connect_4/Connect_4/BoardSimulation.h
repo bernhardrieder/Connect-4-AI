@@ -44,10 +44,10 @@ namespace connect4
 
 			std::vector<potential_win_discs_summary> searchPotentialWinDiscs();
 			static void initPotentialWinDiscsWithZero(std::vector<potential_win_discs_summary>& p);
-			void searchPotentialWinDiscsHorizontal(std::vector<potential_win_discs_summary>& disc, const char& playerNumber);
-			void searchPotentialWinDiscsVertical(std::vector<potential_win_discs_summary>& disc, const char& playerNumber);
-			void searchPotentialWinDiscsDiagonalUpRight(std::vector<potential_win_discs_summary>& disc, const char& playerNumber);
-			void searchPotentialWinDiscsDiagonalDownRight(std::vector<potential_win_discs_summary>& disc, const char& playerNumber);
+			void searchPotentialWinDiscsHorizontal(std::vector<potential_win_discs_summary>& potentialDisc, const char& playerNumber, char row);
+			void searchPotentialWinDiscsVertical(std::vector<potential_win_discs_summary>& potentialDisc, const char& playerNumber);
+			void searchPotentialWinDiscsDiagonalUpRight(std::vector<potential_win_discs_summary>& potentialDisc, const char& playerNumber);
+			void searchPotentialWinDiscsDiagonalDownRight(std::vector<potential_win_discs_summary>& potentialDisc, const char& playerNumber);
 			void searchCounterHelper(std::vector<potential_win_discs_summary>& potentialDisc, const Move& move, const char& player, unsigned char& discCount, unsigned char& unusedCount);
 
 			static int sumUpPotentialDiscs(potential_win_discs_summary& discs);
