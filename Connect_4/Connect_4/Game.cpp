@@ -15,10 +15,9 @@ int Game::Execute(int argc, char* argv[])
 	if (argc < 2)
 	{
 		showUsage(argv[0]);
-		return 1;
-		//ai::Negamax::SetDepth(4);
-		//ai::Negamax::SetMode(ai::Negamax::Modes::SimpleNegamax);
-		//std::cerr << "Game started with default values for AI!\n\n";
+		ai::Negamax::SetDepth(4);
+		ai::Negamax::SetMode(ai::Negamax::Modes::SimpleNegamax);
+		std::cerr << "ERROR: No user input found!\nGame will start with default AI values! Simple negamax with a depth of 4!\n\n";
 	}
 	for (int i = 1; i < argc; ++i)
 	{
@@ -84,9 +83,9 @@ void Game::showUsage(std::string name)
 	std::cerr << "Usage: " << name << " <option(s)> AI parameters\n\n"
 		<< "Options:\n"
 		<< "\t-h,--help\t\tShow this help message\n"
-		<< "\t-ai:m:1, --ai:mode:1\t\t Negamax infinte depth and no static evaluation function.\n"
-		<< "\t-ai:m:2, --ai:mode:2\t\t Negamax and static evaluation function. Choose a depth with '-d', '--depth'.\n"
-		<< "\t-ai:m:3, --ai:mode:3\t\t Negamax with alpha-beta-pruning and static evaluation function. Choose a depth of 5, 8 or 10 with '-d', '--depth'.\n"
+		<< "\t-ai:m:1, --ai:mode:1\tNegamax infinte depth and no static evaluation function.\n"
+		<< "\t-ai:m:2, --ai:mode:2\tNegamax and static evaluation function. Choose a depth with '-d', '--depth'.\n"
+		<< "\t-ai:m:3, --ai:mode:3\tNegamax with alpha-beta-pruning and static evaluation function. Choose a depth of 5, 8 or 10 with '-d', '--depth'.\n"
 		<< "\t-d, --depth\t\tSets negamax depth.\n"
 		<< std::endl;
 }
