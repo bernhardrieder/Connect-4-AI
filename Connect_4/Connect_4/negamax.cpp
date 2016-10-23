@@ -3,8 +3,20 @@
 using namespace connect4;
 using namespace connect4::ai;
 
- // start getBestMove from previous player point of view -> create boardsimulation with (activeplayer-1)%2 for player
-Move Negamax::GetBestMove(BoardSimulation& boardSimulation, const char& depth)
+int Negamax::m_Depth = 0;
+Negamax::Modes Negamax::m_Mode = Modes::SimpleNegamax;
+
+Move Negamax::GetBestMove(BoardSimulation& boardSimulation)
+{
+	switch (m_Mode)
+	{
+		case Modes::SimpleNegamax: return GetBestMoveSimple(boardSimulation, GetDepth());
+		case Modes::AlphaBetaPruning: return GetBestMoveWithAB(boardSimulation, GetDepth());
+	}
+}
+
+// start getBestMove from previous player point of view -> create boardsimulation with (activeplayer-1)%2 for player
+Move Negamax::GetBestMoveSimple(BoardSimulation& boardSimulation, const int& depth)
 {
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
@@ -21,7 +33,7 @@ Move Negamax::GetBestMove(BoardSimulation& boardSimulation, const char& depth)
 	return move;
 }
 
-Move Negamax::GetBestMoveWithAB(BoardSimulation& boardSimulation, const char& depth)
+Move Negamax::GetBestMoveWithAB(BoardSimulation& boardSimulation, const int& depth)
 {
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
@@ -38,7 +50,27 @@ Move Negamax::GetBestMoveWithAB(BoardSimulation& boardSimulation, const char& de
 	return move;
 }
 
-NegamaxResult Negamax::negamax(BoardSimulation& boardSimulation, const char& depth)
+void Negamax::SetDepth(const int& depth)
+{
+	m_Depth = depth;
+}
+
+int Negamax::GetDepth()
+{
+	return m_Depth;
+}
+
+void Negamax::SetMode(Modes mode)
+{
+	m_Mode = mode;
+}
+
+Negamax::Modes Negamax::GetMode()
+{
+	return m_Mode;
+}
+
+NegamaxResult Negamax::negamax(BoardSimulation& boardSimulation, const int& depth)
 {
 	// start with previous player
 	// Check if we’re done recursing		
@@ -71,7 +103,7 @@ NegamaxResult Negamax::negamax(BoardSimulation& boardSimulation, const char& dep
 	return NegamaxResult(bestScore, bestMove);
 }
 
-NegamaxResult Negamax::abNegamax(BoardSimulation& boardSimulation, const char& depth, int alpha, int beta)
+NegamaxResult Negamax::abNegamax(BoardSimulation& boardSimulation, const int& depth, int alpha, int beta)
 {
 	// Check if we’re done recursing
 	if (depth == 0 || boardSimulation.IsGameOver())

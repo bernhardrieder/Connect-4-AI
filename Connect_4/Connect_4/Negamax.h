@@ -4,6 +4,7 @@ namespace connect4
 {
 	namespace ai
 	{
+		
 		struct NegamaxResult
 		{
 			NegamaxResult(const int& score, const Move& move)
@@ -17,14 +18,27 @@ namespace connect4
 		class Negamax
 		{
 		public:
-			static Move GetBestMove(BoardSimulation& boardSimulation, const char& depth);
-			static Move GetBestMoveWithAB(BoardSimulation& boardSimulation, const char& depth);
-		protected:
+			enum class Modes
+			{
+				SimpleNegamax,
+				AlphaBetaPruning
+			};
+			static Move GetBestMove(BoardSimulation& boardSimulation);
+			static Move GetBestMoveSimple(BoardSimulation& boardSimulation, const int& depth);
+			static Move GetBestMoveWithAB(BoardSimulation& boardSimulation, const int& depth);
+			static void SetDepth(const int& depth);
+			static int GetDepth();
+			static void SetMode(Modes mode);
+			static Modes GetMode();
+		private:
 			Negamax() {}
 			~Negamax() {}
-			static NegamaxResult negamax(BoardSimulation& boardSimulation, const char& depth);
-			static NegamaxResult abNegamax(BoardSimulation& boardSimulation, const char& depth, int alpha, int beta);
+			static NegamaxResult negamax(BoardSimulation& boardSimulation, const int& depth);
+			static NegamaxResult abNegamax(BoardSimulation& boardSimulation, const int& depth, int alpha, int beta);
 			static bool checkIfMoveIsUsable(const Move& move);
+
+			static Modes m_Mode;
+			static int m_Depth;
 		};
 
 

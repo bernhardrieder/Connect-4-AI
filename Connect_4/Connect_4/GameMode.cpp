@@ -87,8 +87,9 @@ void GameMode::discInputAi(DiscHoles& chipHoles)
 	{
 		//start simulation with previous player!
 		auto simulation = ai::BoardSimulation(m_PlacedDiscs, (m_ActivePlayer + 1) % 2, m_LastMove);
-		//Move bestMove = ai::Negamax::GetBestMove(simulation, 4);
-		Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
+		//Move bestMove = ai::Negamax::GetBestMoveSimple(simulation, 4);
+		//Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
+		Move bestMove = ai::Negamax::GetBestMove(simulation);
 		chipSet = discInput(bestMove.column, chipHoles);
 	}
 }

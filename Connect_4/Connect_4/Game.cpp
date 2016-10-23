@@ -15,7 +15,10 @@ int Game::Execute(int argc, char* argv[])
 	if (argc < 2)
 	{
 		showUsage(argv[0]);
-		std::cerr << "Game started with default values for AI!\n\n";
+		return 1;
+		//ai::Negamax::SetDepth(4);
+		//ai::Negamax::SetMode(ai::Negamax::Modes::SimpleNegamax);
+		//std::cerr << "Game started with default values for AI!\n\n";
 	}
 	for (int i = 1; i < argc; ++i)
 	{
@@ -25,16 +28,52 @@ int Game::Execute(int argc, char* argv[])
 			showUsage(argv[0]);
 			return 0;
 		}
-		//else if ((arg == "-d") || (arg == "--destination")) 
-		//{
-		//	if (i + 1 < argc) { // Make sure we aren't at the end of argv!
-		//		destination = argv[i++]; // Increment 'i' so we don't get the argument as the next argv[i].
-		//	}
-		//	else { // Uh-oh, there was no argument to the destination option.
-		//		std::cerr << "--destination option requires one argument." << std::endl;
-		//		return 1;
-		//	}
-		//}
+		if ((arg == "-ai:m:1") || (arg == "--ai:mode:1"))
+		{
+			ai::Negamax::SetMode(ai::Negamax::Modes::SimpleNegamax);
+			ai::Negamax::SetDepth(GlobalVariables::Integer_Maximum);
+			break;
+		}
+		if ((arg == "-ai:m:2") || (arg == "--ai:mode:2"))
+		{
+			ai::Negamax::SetMode(ai::Negamax::Modes::SimpleNegamax);
+			if (i + 2 < argc)
+			{
+				std::string argDepth = argv[i + 1];
+				std::string argDepthNum = argv[i + 2];
+				if ((argDepth == "-d") || (argDepth == "--depth"))
+				{
+					ai::Negamax::SetDepth(std::stoi(argDepthNum));
+					break;
+				}
+			}
+			else
+			{
+				ai::Negamax::SetDepth(4);
+				std::cout << "No given depth for negamax - initialized with standard depth of 4!\n";
+				break;
+			}
+		}
+		if ((arg == "-ai:m:3") || (arg == "--ai:mode:3"))
+		{
+			if (i + 2 < argc)
+			{
+				ai::Negamax::SetMode(ai::Negamax::Modes::AlphaBetaPruning);
+				std::string argDepth = argv[i + 1];
+				std::string argDepthNum = argv[i + 2];
+				if ((argDepth == "-d") || (argDepth == "--depth"))
+				{
+					int depth = std::stoi(argDepthNum);
+					if(depth == 5 || depth == 8 || depth == 10)
+					{
+						ai::Negamax::SetDepth(depth);
+						break;
+					}
+				}
+			}
+			std::cerr << "--ai:mode:3 option requires --depth argument with value 5, 8 or 10." << std::endl;
+			return 1;
+		}
 	}
 	startGame();
 	return 0;
@@ -45,7 +84,10 @@ void Game::showUsage(std::string name)
 	std::cerr << "Usage: " << name << " <option(s)> AI parameters\n\n"
 		<< "Options:\n"
 		<< "\t-h,--help\t\tShow this help message\n"
-		//<< "\t-d,--destination DESTINATION\tSpecify the destination path"
+		<< "\t-ai:m:1, --ai:mode:1\t\t Negamax infinte depth and no static evaluation function.\n"
+		<< "\t-ai:m:2, --ai:mode:2\t\t Negamax and static evaluation function. Choose a depth with '-d', '--depth'.\n"
+		<< "\t-ai:m:3, --ai:mode:3\t\t Negamax with alpha-beta-pruning and static evaluation function. Choose a depth of 5, 8 or 10 with '-d', '--depth'.\n"
+		<< "\t-d, --depth\t\tSets negamax depth.\n"
 		<< std::endl;
 }
 
