@@ -11,6 +11,7 @@ namespace connect4
 		~Game();
 
 		int Execute(int argc, char* argv[]);
+
 	private:
 		static void showUsage(std::string name);
 		void selectGameMode();

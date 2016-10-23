@@ -36,3 +36,12 @@ inline std::string to_string(const connect4::Move& move)
 	str.append(std::to_string(static_cast<short>(move.column+1))).append(", Row = ").append(std::to_string(static_cast<short>(move.row+1)));
 	return str;
 }
+
+inline std::string to_string(connect4::ai::Negamax::Modes mode)
+{
+	switch(mode)
+	{
+	case connect4::ai::Negamax::Modes::SimpleNegamax: return "Negamax"; 
+	case connect4::ai::Negamax::Modes::AlphaBetaPruning: return "NegamaxAB";
+	}
+}

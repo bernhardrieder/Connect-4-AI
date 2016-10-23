@@ -120,7 +120,7 @@ void BoardSimulation::initPotentialWinDiscsWithZero(std::vector<potential_win_di
 		a.emplace(1, 0); //key and value for 1 disc
 		a.emplace(2, 0); //key and value for 2 discs
 		a.emplace(3, 0); //key and value for 3 discs
-		a.emplace(4, 0); //key and value for 3 discs
+		a.emplace(4, 0); //key and value for 4 discs
 	}
 }
 
@@ -235,14 +235,6 @@ void BoardSimulation::searchCounterHelper(std::vector<potential_win_discs_summar
 
 int BoardSimulation::sumUpPotentialDiscs(potential_win_discs_summary& discs)
 {	
-	/*
-	DISC WEIGHTING
-	1 disc = 0
-	2 disc in a row = 50
-	3 disc in a row = ALARM!! 100 ?
-	4 disc in a row = +infinity // NOT POSSIBLE -> due to IsGameOver check before evaluate!!!
-	*/
-	
 	if (discs[4] != 0)
 	{
 		return std::numeric_limits<short>::max();

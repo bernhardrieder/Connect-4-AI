@@ -8,24 +8,25 @@ Negamax::Modes Negamax::m_Mode = Modes::SimpleNegamax;
 
 Move Negamax::GetBestMove(BoardSimulation& boardSimulation)
 {
+	Move move;
+	//std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 	switch (m_Mode)
 	{
-		case Modes::SimpleNegamax: return GetBestMoveSimple(boardSimulation, GetDepth());
-		case Modes::AlphaBetaPruning: return GetBestMoveWithAB(boardSimulation, GetDepth());
+		case Modes::SimpleNegamax: move = GetBestMoveSimple(boardSimulation, GetDepth());
+		case Modes::AlphaBetaPruning: move = GetBestMoveWithAB(boardSimulation, GetDepth());
 	}
+
+	//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+	//std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+	//std::cout << "Ply: Negamax with depth " << static_cast<short>(GetDepth()) << ": " << time_span.count() << " seconds\n";
+
+	return move;
 }
 
 // start getBestMove from previous player point of view -> create boardsimulation with (activeplayer-1)%2 for player
 Move Negamax::GetBestMoveSimple(BoardSimulation& boardSimulation, const int& depth)
 {
-	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-
 	auto result = negamax(boardSimulation, depth);
-
-	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-	std::cout << "Ply: Negamax with depth "<< static_cast<short>(depth) << ": "<< time_span.count() << " seconds\n";
-
 	Move& move = result.move;	//move;
 
 	if (checkIfMoveIsUsable(move))
@@ -35,14 +36,7 @@ Move Negamax::GetBestMoveSimple(BoardSimulation& boardSimulation, const int& dep
 
 Move Negamax::GetBestMoveWithAB(BoardSimulation& boardSimulation, const int& depth)
 {
-	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-
 	auto result = abNegamax(boardSimulation, depth, GlobalVariables::Short_Mininum, GlobalVariables::Short_Maximum);
-
-	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-	std::cout << "Ply: AB Pruning Negamax with depth " << static_cast<short>(depth) << ": " << time_span.count() << " seconds\n";
-
 	Move& move = result.move;	//move;
 
 	if (checkIfMoveIsUsable(move))
@@ -84,7 +78,7 @@ NegamaxResult Negamax::negamax(BoardSimulation& boardSimulation, const int& dept
 	// Go through each move
 	for (const Move& move : boardSimulation.GetNextPlayersPossibleMoves())
 	{
-		BoardSimulation newBoard = boardSimulation.MakeNextPlayersMove(move); //make board simulates move with current player -> current player will be choosen in makeMove() (THIS) method
+		BoardSimulation newBoard = boardSimulation.MakeNextPlayersMove(move);
 		boardSimulation.Undo(move);
 
 		// Recurse

@@ -87,8 +87,6 @@ void GameMode::discInputAi(DiscHoles& chipHoles)
 	{
 		//start simulation with previous player!
 		auto simulation = ai::BoardSimulation(m_PlacedDiscs, (m_ActivePlayer + 1) % 2, m_LastMove);
-		//Move bestMove = ai::Negamax::GetBestMoveSimple(simulation, 4);
-		//Move bestMove = ai::Negamax::GetBestMoveWithAB(simulation, 10);
 		Move bestMove = ai::Negamax::GetBestMove(simulation);
 		chipSet = discInput(bestMove.column, chipHoles);
 	}
@@ -171,8 +169,7 @@ void GameMode::setActivePlayerToWinner()
 {
 	m_HasSomebodyWon = true;
 	m_WinColor = GetActivePlayerColor();
-
-	std::cout << "Player " << m_ActivePlayer + 1 << " with color " << to_string(m_WinColor) << " has won the game!\n";
+	//std::cout << "Player " << m_ActivePlayer + 1 << " with color " << to_string(m_WinColor) << " has won the game!\n";
 }
 
 void GameMode::initPlayerDiscs()

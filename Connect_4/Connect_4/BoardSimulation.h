@@ -28,13 +28,6 @@ namespace connect4
 			char m_ActivePlayer;
 			Move m_LastMove;
 
-			/*
-				From Wikpedia:
-				ROOT EVALUATION_SIGN PLAYER 1 = 1
-				ROOT EVALUATION_SIGN PLAYER 2 = -1
-			*/
-			//char m_EvaluationSign;
-
 			bool m_PlayerWon[2] {false, false};
 			bool m_IsDraw = false;
 

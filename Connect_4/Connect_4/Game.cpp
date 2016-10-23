@@ -4,6 +4,7 @@ using namespace connect4;
 
 Game::Game() : m_WinnerColor(sf::Color::White), m_IsRunning(true), m_RestartGame(false), m_IsDraw(false), m_ActiveGamemode(GameMode::Modes::PlayerVsPlayer)
 {
+
 }
 
 Game::~Game()

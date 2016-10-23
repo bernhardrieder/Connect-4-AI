@@ -9,6 +9,7 @@
 #include <functional>
 #include <limits>
 #include <chrono>
+#include <fstream>
 
 #include "BoardSimulation.h"
 #include "Negamax.h"
