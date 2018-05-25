@@ -104,15 +104,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\z_outsourced_programs\SFML-2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\z_outsourced_programs\SFML-2.4.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest />
     <Manifest />
@@ -145,8 +145,8 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\z_outsourced_programs\SFML-2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
     </ClCompile>
@@ -155,8 +155,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\z_outsourced_programs\SFML-2.4.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-s.lib;sfml-system-s.lib;sfml-window-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest />
   </ItemDefinitionGroup>
@@ -193,7 +193,27 @@
     <ClInclude Include="Negamax.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\sfml-system.redist.2.4.0.0\build\native\sfml-system.redist.targets" Condition="Exists('..\packages\sfml-system.redist.2.4.0.0\build\native\sfml-system.redist.targets')" />
+    <Import Project="..\packages\sfml-system.2.4.0.0\build\native\sfml-system.targets" Condition="Exists('..\packages\sfml-system.2.4.0.0\build\native\sfml-system.targets')" />
+    <Import Project="..\packages\sfml-window.redist.2.4.0.0\build\native\sfml-window.redist.targets" Condition="Exists('..\packages\sfml-window.redist.2.4.0.0\build\native\sfml-window.redist.targets')" />
+    <Import Project="..\packages\sfml-window.2.4.0.0\build\native\sfml-window.targets" Condition="Exists('..\packages\sfml-window.2.4.0.0\build\native\sfml-window.targets')" />
+    <Import Project="..\packages\sfml-graphics.redist.2.4.0.0\build\native\sfml-graphics.redist.targets" Condition="Exists('..\packages\sfml-graphics.redist.2.4.0.0\build\native\sfml-graphics.redist.targets')" />
+    <Import Project="..\packages\sfml-graphics.2.4.0.0\build\native\sfml-graphics.targets" Condition="Exists('..\packages\sfml-graphics.2.4.0.0\build\native\sfml-graphics.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Dieses Projekt verweist auf mindestens ein NuGet-Paket, das auf diesem Computer fehlt. Verwenden Sie die Wiederherstellung von NuGet-Paketen, um die fehlenden Dateien herunterzuladen. Weitere Informationen finden Sie unter "http://go.microsoft.com/fwlink/?LinkID=322105". Die fehlende Datei ist "{0}".</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\sfml-system.redist.2.4.0.0\build\native\sfml-system.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-system.redist.2.4.0.0\build\native\sfml-system.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\sfml-system.2.4.0.0\build\native\sfml-system.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-system.2.4.0.0\build\native\sfml-system.targets'))" />
+    <Error Condition="!Exists('..\packages\sfml-window.redist.2.4.0.0\build\native\sfml-window.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-window.redist.2.4.0.0\build\native\sfml-window.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\sfml-window.2.4.0.0\build\native\sfml-window.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-window.2.4.0.0\build\native\sfml-window.targets'))" />
+    <Error Condition="!Exists('..\packages\sfml-graphics.redist.2.4.0.0\build\native\sfml-graphics.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-graphics.redist.2.4.0.0\build\native\sfml-graphics.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\sfml-graphics.2.4.0.0\build\native\sfml-graphics.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-graphics.2.4.0.0\build\native\sfml-graphics.targets'))" />
+  </Target>
 </Project>
